@@ -7,7 +7,10 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:add-recipe": "node dist/add-recipe/server/server.mjs"
+    "serve:ssr:add-recipe": "node dist/add-recipe/server/server.mjs",
+    "gh-pages": "gh-pages -d dist/add-recipe/browser",
+    "deploy": "ng build --base-href=https://add-recipe.ryan-brock.com",
+    "prod": "npm run deploy && npm run gh-pages"
   },
   "private": true,
   "dependencies": {
@@ -22,6 +25,7 @@
     "@angular/platform-server": "^19.2.0",
     "@angular/router": "^19.2.0",
     "@angular/ssr": "^19.2.0",
+    "angular-cli-ghpages": "^2.0.3",
     "express": "^4.18.2",
     "ngx-clipboard": "^16.0.0",
     "rxjs": "~7.8.0",
