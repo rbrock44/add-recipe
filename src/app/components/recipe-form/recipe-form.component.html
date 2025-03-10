@@ -1,0 +1,117 @@
+<div class="recipe-form-container">
+  <mat-card>
+    <mat-card-header class="centered text-white mb-15">
+      <mat-card-title>Create New Recipe</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="this.recipeForm" (ngSubmit)="this.onSubmit()">
+
+        <!-- Basic Recipe Info -->
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Recipe Name</mat-label>
+            <input matInput formControlName="name" placeholder="Enter recipe name">
+            <mat-error *ngIf="this.recipeForm.get('name')?.hasError('required')">
+              Recipe name is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Author</mat-label>
+            <input matInput formControlName="author" placeholder="Enter author name">
+            <mat-error *ngIf="this.recipeForm.get('author')?.hasError('required')">
+              Author name is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Category</mat-label>
+            <mat-select formControlName="category">
+              <mat-option *ngFor="let category of categories" [value]="category.value">
+                {{ category.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <!-- Ingredients Section -->
+        <div formArrayName="ingredients">
+          <h3 class="text-white">Ingredients</h3>
+
+          <div *ngFor="let ingredient of ingredientsArray.controls; let i = index"
+               [formGroupName]="i" class="ingredient-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Amount</mat-label>
+              <input matInput type="number" formControlName="amount" step="0.25">
+              <mat-error *ngIf="ingredientsArray.at(i).get('amount')?.hasError('required')">
+                Amount is required
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="ingredient-name">
+              <mat-label>Ingredient</mat-label>
+              <input matInput formControlName="name" placeholder="e.g., cups of flour">
+              <mat-error *ngIf="this.ingredientsArray.at(i).get('name')?.hasError('required')">
+                Ingredient name is required
+              </mat-error>
+            </mat-form-field>
+
+            <button type="button" mat-icon-button color="warn" (click)="this.removeIngredient(i)"
+                    [disabled]="ingredientsArray.length === 1">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+
+          <button type="button" mat-stroked-button color="primary" (click)="this.addIngredient()">
+            <mat-icon>add</mat-icon> Add Ingredient
+          </button>
+        </div>
+
+        <!-- Instructions Section -->
+        <div class="form-row margin-top">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Instructions</mat-label>
+            <textarea matInput formControlName="instructions"
+                      placeholder="Enter cooking instructions" rows="6"></textarea>
+            <mat-error *ngIf="this.recipeForm.get('instructions')?.hasError('required')">
+              Instructions are required
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Yield Section -->
+        <div formGroupName="yield" class="yield-section">
+          <h3 class="text-white">Yield (Optional)</h3>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Amount</mat-label>
+              <input matInput type="number" formControlName="amount">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="yield-name">
+              <mat-label>Description</mat-label>
+              <input matInput formControlName="name" placeholder="e.g., servings">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Form Buttons -->
+        <div class="button-row">
+          <button type="button" mat-stroked-button (click)="this.resetForm()">
+            Reset
+          </button>
+          <button type="submit" mat-raised-button color="primary"
+                  [disabled]="this.recipeForm.invalid">
+            Save Recipe
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

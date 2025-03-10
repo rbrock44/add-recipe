@@ -1,0 +1,73 @@
+.recipe-form-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 0 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.form-row {
+  margin-bottom: 16px;
+}
+
+.margin-top {
+  margin-top: 24px;
+}
+
+.ingredient-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.ingredient-name {
+  flex-grow: 1;
+}
+
+.yield-section {
+  margin-top: 24px;
+}
+
+.yield-name {
+  flex-grow: 1;
+  margin-left: 16px;
+}
+
+.button-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+h3 {
+  margin-top: 32px;
+  margin-bottom: 16px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+::ng-deep .success-snackbar {
+  background: #4caf50;
+  color: white;
+}
+
+::ng-deep .error-snackbar {
+  background: #f44336;
+  color: white;
+}
+
+.centered {
+  justify-content: center;
+}
+
+.text-white {
+  color: white;
+}
+
+.mb-15 {
+  margin-bottom: 15px;
+}
