@@ -1,4 +1,7 @@
 # AddRecipe
+[Live Website](https://add-recipe.ryan-brock.com/)<br/>
+
+This website helps take a recipe and turn it into JSON format for my main [family recipe website](https://family-recipes.ryan-brock.com/). After clicking 'Save Recipe' the JSON version is copied to clipboard and should be messaged to me (Ryan - rbrock444@gmail.com). Automation is in the works <br/>
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.0.
 
