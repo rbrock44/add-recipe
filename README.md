@@ -1,62 +1,66 @@
 # AddRecipe
-[Live Website](https://add-recipe.ryan-brock.com/)<br/>
 
-This website helps take a recipe and turn it into JSON format for my main [family recipe website](https://family-recipes.ryan-brock.com/). After clicking 'Save Recipe' the JSON version is copied to clipboard and should be messaged to me (Ryan - rbrock444@gmail.com). Automation is in the works <br/>
+> This website helps take a recipe and turn it into JSON format for my main [family recipe website](https://family-recipes.ryan-brock.com/). <br/>
+> [Live - Add Recipe Website](https://add-recipe.ryan-brock.com/)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.0.
+---
 
-## Development server
+## 📚 Table of Contents
 
-To start a local development server, run:
+- [What's My Purpose?](#-whats-my-purpose)
+- [Technologies](#-technologies)
+- [Getting Started (Local Setup)](#-getting-started-local-setup)
+  - [Run Locally](#run-locally)
+  - [Test](#test)
+  - [GitHub Hooks](#github-hooks)
+  - [Build](#build)
+  - [Deploy](#deploy)
 
-```bash
-ng serve
+---
+
+## 🧠 What's My Purpose?
+
+This is a server side single-page angular frontend created to asssit in taking a recipe and turn it into JSON format for my main [family recipe website](https://family-recipes.ryan-brock.com/). After clicking 'Save Recipe' the JSON version is copied to clipboard and should be messaged to me (Ryan - rbrock444@gmail.com). Automation is in the works <br/>
+
+---
+
+## 🛠 Technologies
+
+- Framework: `Angular 19`
+- Testing: `Karma`
+- Deployment: `GitHub Pages`
+
+---
+
+## 🚀 Getting Started (Local Setup)
+
+* Install [node](https://nodejs.org/en) - v19 is needed (v22 also works)
+* Clone [repo](https://github.com/rbrock44/add-recipe)
+
+### Run Locally
+
+```
+npm install
+npm start
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Test
 
-## Code scaffolding
+- Unit
+    - `ng test` || `npm run test`
+- Integration
+    - `ng e2e` || `npm run e2e`
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Github Hooks
 
-```bash
-ng generate component component-name
-```
+- Build
+    - Trigger: On Push to Main
+    - Action(s): Builds application then kicks off gh page action to deploy build output
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Build
 
-```bash
-ng generate --help
-```
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Building
+### Deploy
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Run `npm run prod` to build and deploy the project. Make sure to be on `master` and that it is up to date before running the command. It's really meant to be a CI/CD action
