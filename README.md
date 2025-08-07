@@ -3,6 +3,9 @@
 > This website helps take a recipe and turn it into JSON format for my main [family recipe website](https://family-recipes.ryan-brock.com/). <br/>
 > [Live - Add Recipe Website](https://add-recipe.ryan-brock.com/)
 
+Screenshot:
+![preview](/screenshots/main.png)
+
 ---
 
 ## 📚 Table of Contents
