@@ -8,6 +8,7 @@
 ## 📚 Table of Contents
 
 - [What's My Purpose?](#-whats-my-purpose)
+- [How to Use](#-how-to-use)
 - [Technologies](#-technologies)
 - [Getting Started (Local Setup)](#-getting-started-local-setup)
   - [Run Locally](#run-locally)
@@ -21,6 +22,28 @@
 ## 🧠 What's My Purpose?
 
 This is a server side single-page angular frontend created to asssit in taking a recipe and turn it into JSON format for my main [family recipe website](https://family-recipes.ryan-brock.com/). After clicking 'Save Recipe' the JSON version is copied to clipboard and should be messaged to me (Ryan - rbrock444@gmail.com). Automation is in the works <br/>
+
+---
+
+## 🚦 How to Use
+
+Fill this form out, click `Save Recipe` and share the clipboard with me (Ryan - rbrock444@gmail.com) to add to the [family recipe website](https://family-recipes.ryan-brock.com/)
+
+- Recipe Name
+- Author
+- Category 
+    - Select Category from dropdown
+- Ingredients
+    - `Add Ingredient` - Use to add as many ingredients as needed
+    - Each ingredient needs an amount and name (description)
+        - use decimals (EX: 1/2 = 0.5)
+- Instructions
+- Yield (Optional)
+    - Amount
+    - Description
+
+Screenshot:
+![preview](/screenshots/main.png)
 
 ---
 
