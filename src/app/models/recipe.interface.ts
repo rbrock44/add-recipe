@@ -3,7 +3,6 @@ import {Ingredient} from './ingredient.interface';
 
 export interface Recipe {
   name: string;
-  filename: string;
   author: string;
   category: number;
   instructions: string;
