@@ -87,9 +87,6 @@ export class RecipeFormComponent implements OnInit {
     if (this.recipeForm.valid) {
       const recipeData: Recipe = this.recipeForm.value;
 
-      // Generate a filename based on recipe name (lowercase, spaces to hyphens)
-      recipeData.filename = "Ryan_to_fill_out";
-
       // Create JSON
       const recipeJson = JSON.stringify(recipeData, null, 2);
       console.log(recipeJson);
