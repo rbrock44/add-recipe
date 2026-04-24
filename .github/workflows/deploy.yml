@@ -28,6 +28,12 @@ jobs:
     - name: Build Project
       run: npm run deploy
 
+    - name: Write runtime app config
+      env:
+        DELETE_RECIPE_TOKEN: ${{ secrets.DELETE_RECIPE_TOKEN }}
+      run: |
+        node -e "const fs=require('fs'); const token=(process.env.DELETE_RECIPE_TOKEN||'').trim(); if(!token){throw new Error('Missing required secret: DELETE_RECIPE_TOKEN');} const config={pendingRecipeUrl:'https://family-recipes.ryan-brock.com/recipes/pending',deleteRecipeToken:token}; fs.writeFileSync('./dist/add-recipe/browser/app-config.js', 'window.__APP_CONFIG__ = ' + JSON.stringify(config, null, 2) + ';\n');"
+
     - name: Add CNAME
       run: |
         cp CNAME ./dist/add-recipe/browser/CNAME

@@ -24,13 +24,13 @@ Screenshot:
 
 ## 🧠 What's My Purpose?
 
-This is a server side single-page angular frontend created to asssit in taking a recipe and turn it into JSON format for my main [family recipe website](https://family-recipes.ryan-brock.com/). After clicking 'Save Recipe' the JSON version is copied to clipboard and should be messaged to me (Ryan - rbrock444@gmail.com). Automation is in the works <br/>
+This is a server side single-page angular frontend created to asssit in taking a recipe and turn it into JSON format for my main [family recipe website](https://family-recipes.ryan-brock.com/). After clicking 'Save Recipe', the payload is submitted to the pending recipe endpoint for review. <br/>
 
 ---
 
 ## 🚦 How to Use
 
-Fill this form out, click `Save Recipe` and share the clipboard with me (Ryan - rbrock444@gmail.com) to add to the [family recipe website](https://family-recipes.ryan-brock.com/)
+Fill this form out and click `Save Recipe` to submit your recipe for review on the [family recipe website](https://family-recipes.ryan-brock.com/).
 
 - Recipe Name
 - Author
@@ -87,7 +87,9 @@ npm start
 
 - Build
     - Trigger: On Push to Main
-    - Action(s): Builds application then kicks off gh page action to deploy build output
+    - Action(s): Builds application, writes runtime API config, then deploys build output to GitHub Pages
+- Required Secret(s)
+    - `PENDING_RECIPE_TOKEN`: Token sent to the pending recipe endpoint in the `x-recipe-token` header
 
 ---
 

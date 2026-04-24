@@ -107,8 +107,8 @@
             Reset
           </button>
           <button type="submit" mat-raised-button color="primary"
-                  [disabled]="this.recipeForm.invalid">
-            Save Recipe
+                  [disabled]="this.recipeForm.invalid || this.isSaving">
+            {{ this.isSaving ? 'Saving...' : 'Save Recipe' }}
           </button>
         </div>
       </form>

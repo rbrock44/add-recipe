@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule} from '@angular/forms';
 import {Recipe} from '../../models/recipe.interface';
 import {CATEGORIES} from '../../models/category.enum';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
@@ -8,11 +8,17 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
-import {ClipboardModule} from '@angular/cdk/clipboard';
 import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import { ClipboardService } from 'ngx-clipboard';
 import {CommonModule} from '@angular/common';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+
+type RuntimeAppConfig = {
+  pendingRecipeUrl?: string;
+  deleteRecipeToken?: string;
+};
+
+const runtimeConfig = (globalThis as typeof globalThis & { __APP_CONFIG__?: RuntimeAppConfig }).__APP_CONFIG__;
 
 @Component({
   standalone: true,
@@ -22,7 +28,6 @@ import {CommonModule} from '@angular/common';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    ClipboardModule,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
@@ -31,18 +36,18 @@ import {CommonModule} from '@angular/common';
     MatIconModule,
     MatDividerModule,
     MatSnackBarModule
-  ],
-  providers: [
-    ClipboardService
   ]
 })
 export class RecipeFormComponent implements OnInit {
   recipeForm: FormGroup = new FormGroup('');
   categories = CATEGORIES;
+  isSaving = false;
+  private readonly pendingRecipeUrl = runtimeConfig?.pendingRecipeUrl ?? 'https://family-recipes.ryan-brock.com/recipes/pending';
+  private readonly deleteRecipeToken = runtimeConfig?.deleteRecipeToken?.trim() ?? '';
 
   constructor(
     private fb: FormBuilder,
-    private clipboardService: ClipboardService,
+    private http: HttpClient,
     private snackBar: MatSnackBar
   ) { }
 
@@ -84,21 +89,37 @@ export class RecipeFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.recipeForm.valid) {
-      const recipeData: Recipe = this.recipeForm.value;
-
-      // Create JSON
-      const recipeJson = JSON.stringify(recipeData, null, 2);
-      console.log(recipeJson);
-
-      // Copy to clipboard and show toast
-      this.clipboardService.copyFromContent(recipeJson);
-      this.showNotification('Recipe JSON copied to clipboard! Send to Ryan (rbrock444@gmail.com)');
-    } else {
+    if (!this.recipeForm.valid) {
       // Mark all fields as touched to show validation errors
       this.markFormGroupTouched(this.recipeForm);
       this.showNotification('Please fill in all required fields', 'error');
+      return;
     }
+
+    if (this.isSaving) {
+      return;
+    }
+
+    const recipeData: Recipe = this.recipeForm.value;
+    const headers = this.deleteRecipeToken
+      ? new HttpHeaders({
+          'X-API-Key': this.deleteRecipeToken
+        })
+      : undefined;
+
+    this.isSaving = true;
+    this.http.post(this.pendingRecipeUrl, recipeData, { headers }).subscribe({
+      next: () => {
+        this.isSaving = false;
+        this.resetForm();
+        this.showNotification('Recipe submitted for review. Thank you!');
+      },
+      error: (error: unknown) => {
+        this.isSaving = false;
+        console.error('Failed to submit recipe:', error);
+        this.showNotification('Unable to save recipe right now. Please try again.', 'error');
+      }
+    });
   }
 
   // Recursively marks all controls in a form group as touched
@@ -113,7 +134,7 @@ export class RecipeFormComponent implements OnInit {
         }
       });
     } else if (formGroup instanceof FormArray) {
-      formGroup.controls.forEach(control => {
+      formGroup.controls.forEach((control: AbstractControl) => {
         if (control instanceof FormGroup || control instanceof FormArray) {
           this.markFormGroupTouched(control);
         } else {
