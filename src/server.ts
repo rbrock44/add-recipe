@@ -14,17 +14,41 @@ const browserDistFolder = resolve(serverDistFolder, '../browser');
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
+// Middleware to parse JSON request bodies
+app.use(express.json());
+
 /**
- * Example Express Rest API endpoints can be defined here.
- * Uncomment and define endpoints as necessary.
- *
- * Example:
- * ```ts
- * app.get('/api/**', (req, res) => {
- *   // Handle API request
- * });
- * ```
+ * API endpoint to submit recipes securely
+ * The API key is kept secret on the server and never exposed to the client
  */
+app.post('/api/recipes/pending', async (req, res) => {
+  try {
+    const apiKey = process.env['RECIPE_API_KEY'];
+    const externalApiUrl = process.env['PENDING_RECIPE_URL'] || 'https://family-recipes.ryan-brock.com/recipes/pending';
+
+    if (!apiKey) {
+      console.error('RECIPE_API_KEY environment variable is not set');
+      return res.status(500).json({ error: 'Server configuration error' });
+    }
+
+    // Forward the request to the external API with the API key
+    const response = await fetch(externalApiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-API-Key': apiKey,
+      },
+      body: JSON.stringify(req.body),
+    });
+
+    // Return the response from the external API to the client
+    const data = await response.json();
+    res.status(response.status).json(data);
+  } catch (error) {
+    console.error('Error submitting recipe:', error);
+    res.status(500).json({ error: 'Failed to submit recipe' });
+  }
+});
 
 /**
  * Serve static files from /browser

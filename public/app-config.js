@@ -1,4 +1,4 @@
 window.__APP_CONFIG__ = {
-  pendingRecipeUrl: 'https://family-recipes.ryan-brock.com/recipes/pending',
-  deleteRecipeToken: ''
+  // Configuration is now handled server-side for security
+  // API key is managed via environment variables and never exposed to the client
 };

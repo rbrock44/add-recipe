@@ -11,14 +11,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {CommonModule} from '@angular/common';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-
-type RuntimeAppConfig = {
-  pendingRecipeUrl?: string;
-  deleteRecipeToken?: string;
-};
-
-const runtimeConfig = (globalThis as typeof globalThis & { __APP_CONFIG__?: RuntimeAppConfig }).__APP_CONFIG__;
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   standalone: true,
@@ -42,8 +35,8 @@ export class RecipeFormComponent implements OnInit {
   recipeForm: FormGroup = new FormGroup('');
   categories = CATEGORIES;
   isSaving = false;
-  private readonly pendingRecipeUrl = runtimeConfig?.pendingRecipeUrl ?? 'https://family-recipes.ryan-brock.com/recipes/pending';
-  private readonly deleteRecipeToken = runtimeConfig?.deleteRecipeToken?.trim() ?? '';
+  // Backend endpoint - no API key needed on client side
+  private readonly pendingRecipeUrl = '/api/recipes/pending';
 
   constructor(
     private fb: FormBuilder,
@@ -101,14 +94,10 @@ export class RecipeFormComponent implements OnInit {
     }
 
     const recipeData: Recipe = this.recipeForm.value;
-    const headers = this.deleteRecipeToken
-      ? new HttpHeaders({
-          'X-API-Key': this.deleteRecipeToken
-        })
-      : undefined;
 
     this.isSaving = true;
-    this.http.post(this.pendingRecipeUrl, recipeData, { headers }).subscribe({
+    // Call backend endpoint - API key is handled securely on the server
+    this.http.post(this.pendingRecipeUrl, recipeData).subscribe({
       next: () => {
         this.isSaving = false;
         this.resetForm();
