@@ -43,10 +43,10 @@ app.post('/api/recipes/pending', async (req, res) => {
 
     // Return the response from the external API to the client
     const data = await response.json();
-    res.status(response.status).json(data);
+    return res.status(response.status).json(data);
   } catch (error) {
     console.error('Error submitting recipe:', error);
-    res.status(500).json({ error: 'Failed to submit recipe' });
+    return res.status(500).json({ error: 'Failed to submit recipe' });
   }
 });
 
