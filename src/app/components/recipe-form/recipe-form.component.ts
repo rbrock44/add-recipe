@@ -36,7 +36,7 @@ export class RecipeFormComponent implements OnInit {
   categories = CATEGORIES;
   isSaving = false;
   // Backend endpoint - no API key needed on client side
-  private readonly pendingRecipeUrl = '/api/recipes/pending';
+  private readonly pendingRecipeUrl = '/api/recipe/pending';
 
   constructor(
     private fb: FormBuilder,

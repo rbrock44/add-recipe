@@ -21,10 +21,10 @@ app.use(express.json());
  * API endpoint to submit recipes securely
  * The API key is kept secret on the server and never exposed to the client
  */
-app.post('/api/recipes/pending', async (req, res) => {
+app.post('/api/recipe/pending', async (req, res) => {
   try {
     const apiKey = process.env['RECIPE_API_KEY'];
-    const externalApiUrl = process.env['PENDING_RECIPE_URL'] || 'https://family-recipes.ryan-brock.com/recipes/pending';
+    const externalApiUrl = process.env['PENDING_RECIPE_URL'] || 'https://home-page-api.ryan-brock.com/recipe/pending';
 
     if (!apiKey) {
       console.error('RECIPE_API_KEY environment variable is not set');
