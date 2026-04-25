@@ -50,6 +50,11 @@ app.post('/api/recipe/pending', async (req, res) => {
   }
 });
 
+// Explicit route to prevent catch-all from intercepting /api calls
+app.use('/api', (req, res) => {
+  res.status(404).json({ error: 'API endpoint not found' });
+});
+
 /**
  * Serve static files from /browser
  */
