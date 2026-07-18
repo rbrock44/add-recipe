@@ -56,6 +56,7 @@ app.use('/api', (req, res) => {
 });
 
 /**
+ * 
  * Serve static files from /browser
  */
 app.use(
