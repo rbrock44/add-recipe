@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule} from '@angular/forms';
 import {Recipe} from '../../models/recipe.interface';
 import {CATEGORIES} from '../../models/category.enum';
@@ -18,6 +18,7 @@ import {HttpClient} from '@angular/common/http';
   selector: 'app-recipe-form',
   templateUrl: './recipe-form.component.html',
   styleUrls: ['./recipe-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     ReactiveFormsModule,
     MatCardModule,
