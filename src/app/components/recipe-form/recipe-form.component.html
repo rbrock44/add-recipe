@@ -106,10 +106,45 @@
               <input matInput type="number" formControlName="amount">
             </mat-form-field>
 
+            <mat-form-field appearance="outline">
+              <mat-label>Upper Amount</mat-label>
+              <input matInput type="number" formControlName="upperAmount" placeholder="e.g., 8 for a 6-8 range">
+            </mat-form-field>
+
             <mat-form-field appearance="outline" class="yield-name">
               <mat-label>Description</mat-label>
               <input matInput formControlName="name" placeholder="e.g., servings">
             </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Photos Section -->
+        <div class="photos-section">
+          <h3 class="text-white">Photos (Optional)</h3>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Photo URL</mat-label>
+              <input matInput formControlName="link" placeholder="Link to a photo of the recipe">
+            </mat-form-field>
+          </div>
+
+          <div formArrayName="additionalLinks">
+            @for (additionalLink of additionalLinksArray.controls; track additionalLink; let i = $index) {
+              <div class="ingredient-row">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Additional Photo URL</mat-label>
+                  <input matInput [formControlName]="i" placeholder="Link to another photo">
+                </mat-form-field>
+                <button type="button" mat-icon-button color="warn" (click)="this.removeAdditionalLink(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            }
+
+            <button type="button" mat-stroked-button color="primary" (click)="this.addAdditionalLink()">
+              <mat-icon>add</mat-icon> Add Photo URL
+            </button>
           </div>
         </div>
 

@@ -1,4 +1,9 @@
 <main class="main">
+  @if (cameFromFamilyRecipes) {
+    <div class="back-to-recipes">
+      <a [href]="familyRecipesUrl">&larr; Back to Family Recipes</a>
+    </div>
+  }
   <div class="app-container">
     <app-recipe-form></app-recipe-form>
   </div>

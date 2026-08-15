@@ -57,8 +57,11 @@ export class RecipeFormComponent implements OnInit {
       ingredients: this.fb.array([this.createIngredient()]),
       yield: this.fb.group({
         amount: [0],
+        upperAmount: [null],
         name: ['']
-      })
+      }),
+      link: [''],
+      additionalLinks: this.fb.array([])
     });
   }
 
@@ -81,6 +84,18 @@ export class RecipeFormComponent implements OnInit {
     this.ingredientsArray.removeAt(index);
   }
 
+  get additionalLinksArray(): FormArray {
+    return this.recipeForm.get('additionalLinks') as FormArray;
+  }
+
+  addAdditionalLink(): void {
+    this.additionalLinksArray.push(this.fb.control(''));
+  }
+
+  removeAdditionalLink(index: number): void {
+    this.additionalLinksArray.removeAt(index);
+  }
+
   onSubmit(): void {
     if (!this.recipeForm.valid) {
       // Mark all fields as touched to show validation errors
@@ -93,7 +108,7 @@ export class RecipeFormComponent implements OnInit {
       return;
     }
 
-    const recipeData: Recipe = this.recipeForm.value;
+    const recipeData: Recipe = this.buildRecipePayload();
 
     this.isSaving = true;
     // Call backend endpoint - API key is handled securely on the server
@@ -109,6 +124,28 @@ export class RecipeFormComponent implements OnInit {
         this.showNotification('Unable to save recipe right now. Please try again.', 'error');
       }
     });
+  }
+
+  buildRecipePayload(): Recipe {
+    const formValue = this.recipeForm.value;
+    const recipeData: Recipe = { ...formValue };
+
+    if (!recipeData.link) {
+      delete recipeData.link;
+    }
+
+    const additionalLinks = (formValue.additionalLinks || []).filter((link: string) => !!link);
+    if (additionalLinks.length > 0) {
+      recipeData.additionalLinks = additionalLinks;
+    } else {
+      delete recipeData.additionalLinks;
+    }
+
+    if (!recipeData.yield.upperAmount) {
+      delete recipeData.yield.upperAmount;
+    }
+
+    return recipeData;
   }
 
   // Recursively marks all controls in a form group as touched
@@ -149,11 +186,15 @@ export class RecipeFormComponent implements OnInit {
       this.ingredientsArray.removeAt(0);
     }
     this.addIngredient();
+    while (this.additionalLinksArray.length > 0) {
+      this.additionalLinksArray.removeAt(0);
+    }
     // Reset default values
     this.recipeForm.patchValue({
       category: 0,
       yield: {
         amount: 0,
+        upperAmount: null,
         name: ''
       }
     });
