@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule} from '@angular/forms';
 import {Recipe} from '../../models/recipe.interface';
 import {CATEGORIES} from '../../models/category.enum';
+import {buildRecipePayload} from '../../utils/recipe-transform';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatIconModule} from '@angular/material/icon';
@@ -108,7 +109,7 @@ export class RecipeFormComponent implements OnInit {
       return;
     }
 
-    const recipeData: Recipe = this.buildRecipePayload();
+    const recipeData: Recipe = buildRecipePayload(this.recipeForm.value);
 
     this.isSaving = true;
     // Call backend endpoint - API key is handled securely on the server
@@ -124,28 +125,6 @@ export class RecipeFormComponent implements OnInit {
         this.showNotification('Unable to save recipe right now. Please try again.', 'error');
       }
     });
-  }
-
-  buildRecipePayload(): Recipe {
-    const formValue = this.recipeForm.value;
-    const recipeData: Recipe = { ...formValue };
-
-    if (!recipeData.link) {
-      delete recipeData.link;
-    }
-
-    const additionalLinks = (formValue.additionalLinks || []).filter((link: string) => !!link);
-    if (additionalLinks.length > 0) {
-      recipeData.additionalLinks = additionalLinks;
-    } else {
-      delete recipeData.additionalLinks;
-    }
-
-    if (!recipeData.yield.upperAmount) {
-      delete recipeData.yield.upperAmount;
-    }
-
-    return recipeData;
   }
 
   // Recursively marks all controls in a form group as touched
