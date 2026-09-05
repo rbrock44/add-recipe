@@ -1,7 +1,7 @@
 <div class="recipe-form-container">
   <mat-card>
     <mat-card-header class="centered text-white mb-15">
-      <mat-card-title>Create New Recipe</mat-card-title>
+      <h1 mat-card-title>Create New Recipe</h1>
     </mat-card-header>
 
     <mat-card-content>
@@ -11,9 +11,9 @@
         <div class="form-row">
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Recipe Name</mat-label>
-            <input matInput formControlName="name" placeholder="Enter recipe name">
+            <input matInput formControlName="name" placeholder="Enter recipe name" id="recipe-name" required>
             @if (this.recipeForm.get('name')?.hasError('required')) {
-              <mat-error>
+              <mat-error id="recipe-name-error" role="alert">
                 Recipe name is required
               </mat-error>
             }
@@ -23,9 +23,9 @@
         <div class="form-row">
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Author</mat-label>
-            <input matInput formControlName="author" placeholder="Enter author name">
+            <input matInput formControlName="author" placeholder="Enter author name" id="recipe-author" required>
             @if (this.recipeForm.get('author')?.hasError('required')) {
-              <mat-error>
+              <mat-error id="recipe-author-error" role="alert">
                 Author name is required
               </mat-error>
             }
@@ -35,7 +35,7 @@
         <div class="form-row">
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Category</mat-label>
-            <mat-select formControlName="category">
+            <mat-select formControlName="category" id="recipe-category" required>
               @for (category of categories; track category) {
                 <mat-option [value]="category.value">
                   {{ category.name }}
@@ -47,31 +47,31 @@
 
         <!-- Ingredients Section -->
         <div formArrayName="ingredients">
-          <h3 class="text-white">Ingredients</h3>
+          <h2 class="text-white">Ingredients</h2>
 
           @for (ingredient of ingredientsArray.controls; track ingredient; let i = $index) {
             <div
               [formGroupName]="i" class="ingredient-row">
               <mat-form-field appearance="outline">
                 <mat-label>Amount</mat-label>
-                <input matInput type="number" formControlName="amount" step="0.25">
+                <input matInput type="number" formControlName="amount" step="0.25" [id]="'ingredient-amount-' + i" required>
                 @if (ingredientsArray.at(i).get('amount')?.hasError('required')) {
-                  <mat-error>
+                  <mat-error [id]="'ingredient-amount-error-' + i" role="alert">
                     Amount is required
                   </mat-error>
                 }
               </mat-form-field>
               <mat-form-field appearance="outline" class="ingredient-name">
                 <mat-label>Ingredient</mat-label>
-                <input matInput formControlName="name" placeholder="e.g., cups of flour">
+                <input matInput formControlName="name" placeholder="e.g., cups of flour" [id]="'ingredient-name-' + i" required>
                 @if (this.ingredientsArray.at(i).get('name')?.hasError('required')) {
-                  <mat-error>
+                  <mat-error [id]="'ingredient-name-error-' + i" role="alert">
                     Ingredient name is required
                   </mat-error>
                 }
               </mat-form-field>
               <button type="button" mat-icon-button color="warn" (click)="this.removeIngredient(i)"
-                [disabled]="ingredientsArray.length === 1">
+                [disabled]="ingredientsArray.length === 1" [attr.aria-label]="'Remove ingredient ' + (i + 1)">
                 <mat-icon>delete</mat-icon>
               </button>
             </div>
@@ -86,10 +86,10 @@
         <div class="form-row margin-top">
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Instructions</mat-label>
-            <textarea matInput formControlName="instructions"
-            placeholder="Enter cooking instructions" rows="6"></textarea>
+            <textarea matInput formControlName="instructions" id="recipe-instructions"
+            placeholder="Enter cooking instructions" rows="6" required></textarea>
             @if (this.recipeForm.get('instructions')?.hasError('required')) {
-              <mat-error>
+              <mat-error id="recipe-instructions-error" role="alert">
                 Instructions are required
               </mat-error>
             }
@@ -98,34 +98,34 @@
 
         <!-- Yield Section -->
         <div formGroupName="yield" class="yield-section">
-          <h3 class="text-white">Yield (Optional)</h3>
+          <h2 class="text-white">Yield (Optional)</h2>
 
           <div class="form-row">
             <mat-form-field appearance="outline">
               <mat-label>Amount</mat-label>
-              <input matInput type="number" formControlName="amount">
+              <input matInput type="number" formControlName="amount" id="yield-amount">
             </mat-form-field>
 
             <mat-form-field appearance="outline">
               <mat-label>Upper Amount</mat-label>
-              <input matInput type="number" formControlName="upperAmount" placeholder="e.g., 8 for a 6-8 range">
+              <input matInput type="number" formControlName="upperAmount" placeholder="e.g., 8 for a 6-8 range" id="yield-upper-amount">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="yield-name">
               <mat-label>Description</mat-label>
-              <input matInput formControlName="name" placeholder="e.g., servings">
+              <input matInput formControlName="name" placeholder="e.g., servings" id="yield-name">
             </mat-form-field>
           </div>
         </div>
 
         <!-- Photos Section -->
         <div class="photos-section">
-          <h3 class="text-white">Photos (Optional)</h3>
+          <h2 class="text-white">Photos (Optional)</h2>
 
           <div class="form-row">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Photo URL</mat-label>
-              <input matInput formControlName="link" placeholder="Link to a photo of the recipe">
+              <input matInput formControlName="link" placeholder="Link to a photo of the recipe" id="recipe-link">
             </mat-form-field>
           </div>
 
@@ -134,9 +134,10 @@
               <div class="ingredient-row">
                 <mat-form-field appearance="outline" class="full-width">
                   <mat-label>Additional Photo URL</mat-label>
-                  <input matInput [formControlName]="i" placeholder="Link to another photo">
+                  <input matInput [formControlName]="i" placeholder="Link to another photo" [id]="'additional-link-' + i">
                 </mat-form-field>
-                <button type="button" mat-icon-button color="warn" (click)="this.removeAdditionalLink(i)">
+                <button type="button" mat-icon-button color="warn" (click)="this.removeAdditionalLink(i)"
+                  [attr.aria-label]="'Remove additional photo URL ' + (i + 1)">
                   <mat-icon>delete</mat-icon>
                 </button>
               </div>
