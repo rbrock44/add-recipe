@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://add-recipe.ryan-brock.com/schemas/family-recipes-recipe.schema.json",
+  "title": "family-recipes recipe payload",
+  "description": "Shape of the JSON the family-recipes app reads from src/assets/recipes/<filename>.json and receives at its pending-recipe review endpoint (see RecipeReaderService#convertRecipe and the Recipe interface in family-recipes). 'filename' and 'url' are assigned downstream once a recipe is filed away and are intentionally absent here.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name", "author", "category", "instructions", "ingredients", "yield"],
+  "properties": {
+    "name": { "type": "string", "minLength": 1 },
+    "author": { "type": "string", "minLength": 1 },
+    "category": { "type": "integer", "minimum": 1 },
+    "instructions": { "type": "string", "minLength": 1 },
+    "ingredients": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "amount"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "amount": { "type": "number" }
+        }
+      }
+    },
+    "yield": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "amount"],
+      "properties": {
+        "name": { "type": "string" },
+        "amount": { "type": "number" },
+        "upperAmount": { "type": "number" }
+      }
+    },
+    "link": { "type": "string", "minLength": 1 },
+    "additionalLinks": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}
