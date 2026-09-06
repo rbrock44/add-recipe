@@ -1,2 +1,4 @@
 User-agent: *
 Disallow: /
+
+Sitemap: https://add-recipe.ryan-brock.com/sitemap.xml
