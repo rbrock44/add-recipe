@@ -1,4 +1,6 @@
 import {Recipe} from '../models/recipe.interface';
+import {Ingredient} from '../models/ingredient.interface';
+import {splitUnit} from './ingredient-unit.util';
 
 /**
  * Shape of RecipeFormComponent's reactive form value, mirrored here so the
@@ -21,11 +23,22 @@ export interface RecipeFormValue {
 
 /**
  * Converts a raw recipe form value into the JSON payload consumed by the
- * family-recipes backend: drops empty optional fields (link, additionalLinks,
+ * family-recipes backend: moves a leading unit out of each ingredient name into
+ * its own `unit` field, and drops empty optional fields (link, additionalLinks,
  * yield.upperAmount) rather than sending them as blank/null.
  */
 export function buildRecipePayload(formValue: RecipeFormValue): Recipe {
   const recipeData: Recipe = { ...formValue } as Recipe;
+
+  recipeData.ingredients = formValue.ingredients.map(({ amount, name }) => {
+    const split = splitUnit(name);
+    const ingredient = { amount } as Ingredient;
+    if (split.unit) {
+      ingredient.unit = split.unit;
+    }
+    ingredient.name = split.name;
+    return ingredient;
+  });
 
   if (!recipeData.link) {
     delete recipeData.link;

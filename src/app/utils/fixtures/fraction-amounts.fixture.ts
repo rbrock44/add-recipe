@@ -29,10 +29,10 @@ export const expected: Recipe = {
   category: 5,
   instructions: 'Cut butter into flour. Add buttermilk. Fold gently.',
   ingredients: [
-    { amount: 2.75, name: 'cups flour' },
-    { amount: 0.25, name: 'cup cold butter' },
-    { amount: 1.5, name: 'cups buttermilk' },
-    { amount: 0.125, name: 'tsp salt' }
+    { amount: 2.75, unit: 'cup', name: 'flour' },
+    { amount: 0.25, unit: 'cup', name: 'cold butter' },
+    { amount: 1.5, unit: 'cup', name: 'buttermilk' },
+    { amount: 0.125, unit: 'tsp', name: 'salt' }
   ],
   yield: {
     amount: 8,

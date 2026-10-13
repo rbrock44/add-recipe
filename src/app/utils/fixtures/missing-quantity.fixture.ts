@@ -29,7 +29,7 @@ export const expected: Recipe = {
   category: 2,
   instructions: 'Whisk everything together.',
   ingredients: [
-    { amount: 0.5, name: 'cup olive oil' },
+    { amount: 0.5, unit: 'cup', name: 'olive oil' },
     { amount: null as unknown as number, name: 'salt to taste' },
     { amount: null as unknown as number, name: 'pepper to taste' }
   ],

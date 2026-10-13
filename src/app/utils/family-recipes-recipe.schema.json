@@ -20,7 +20,11 @@
         "required": ["name", "amount"],
         "properties": {
           "name": { "type": "string", "minLength": 1 },
-          "amount": { "type": "number" }
+          "amount": { "type": "number" },
+          "unit": {
+            "description": "Canonical unit from ingredient-unit.util.ts; absent when the ingredient has none.",
+            "enum": ["cup", "tsp", "tbsp", "lb", "oz", "pkg", "can", "stick", "qt", "gal", "pt", "box", "jar", "bottle", "bag", "pinch", "dash", "square", "doz"]
+          }
         }
       }
     },

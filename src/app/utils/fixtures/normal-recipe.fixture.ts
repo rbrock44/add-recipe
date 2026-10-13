@@ -28,9 +28,9 @@ export const expected: Recipe = {
   category: 3,
   instructions: 'Sear the roast on all sides. Add vegetables and broth. Braise low and slow for 4 hours.',
   ingredients: [
-    { amount: 3, name: 'lbs chuck roast' },
+    { amount: 3, unit: 'lb', name: 'chuck roast' },
     { amount: 4, name: 'carrots, chopped' },
-    { amount: 2, name: 'cups beef broth' }
+    { amount: 2, unit: 'cup', name: 'beef broth' }
   ],
   yield: {
     amount: 6,

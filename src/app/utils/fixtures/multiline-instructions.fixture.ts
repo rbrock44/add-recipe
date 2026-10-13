@@ -40,12 +40,12 @@ export const expected: Recipe = {
   category: 6,
   instructions,
   ingredients: [
-    { amount: 2, name: 'cups sugar' },
-    { amount: 1, name: 'cup butter' },
+    { amount: 2, unit: 'cup', name: 'sugar' },
+    { amount: 1, unit: 'cup', name: 'butter' },
     { amount: 4, name: 'eggs' },
-    { amount: 3, name: 'cups flour' },
-    { amount: 1, name: 'cup milk' },
-    { amount: 2, name: 'tsp vanilla' }
+    { amount: 3, unit: 'cup', name: 'flour' },
+    { amount: 1, unit: 'cup', name: 'milk' },
+    { amount: 2, unit: 'tsp', name: 'vanilla' }
   ],
   yield: {
     amount: 12,
