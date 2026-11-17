@@ -1,4 +1,4 @@
 User-agent: *
-Disallow: /
+Allow: /
 
 Sitemap: https://add-recipe.ryan-brock.com/sitemap.xml
